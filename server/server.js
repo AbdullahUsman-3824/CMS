@@ -14,7 +14,7 @@ mongoose.Promise = global.Promise;
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Connect to MongoDB at default port 27017
+// Connect to MongoDB at default port 27017    // need improvement in future for prodcution
 (async () => {
   try {
     await mongoose.connect("mongodb://localhost:27017/CMS");
@@ -35,6 +35,8 @@ app.use((err, req, res, next) => {
   console.log("ERROR!");
   res.status(status).send(message);
 });
+
+app.use("*", (req, res) => res.send("Page not found"));
 
 // Root route
 app.get("/", (req, res) => res.send("Hello World!"));

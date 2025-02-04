@@ -1,45 +1,40 @@
+// Import required modules
 const express = require("express");
 const router = express.Router();
 
 const Category = require("../models/category");
 const ExpressError = require("../utils/ExpressError");
 const catchAsync = require("../utils/asyncCatch.js");
+const validateObjectId = require("../middlewares/idValidator");
 
-// Default route                                                   "GET /api/categories"
-router.get(
-  "/",
-  catchAsync(async (req, res) => {
-    const categories = await Category.find({});
-    res.json(categories);
-  })
-);
+// Route to handle all categories
+router
+  .route("/")
+  // Get all categories
+  .get(
+    catchAsync(async (req, res) => {
+      const categories = await Category.find({});
+      res.json(categories);
+    })
+  )
+  // Create a new category
+  .post(
+    catchAsync(async (req, res) => {
+      const { name } = req.body;
+      const createdCategory = await Category.create({ name });
+      res.json({
+        statusCode: 200,
+        message: "Category created",
+        id: createdCategory._id,
+      });
+    })
+  );
 
-// // Route to create a new category                                  "POST /api/categories/new"
-router.post(
-  "/new",
-  catchAsync(async (req, res) => {
-    const { name } = req.body;
-    await Category.create({ name });
-    res.json({ statusCode: 200, message: "Category created" });
-  })
-);
-
-// // Route to update a specific category by ID                       "PUT /api/categories/:id/edit"
-router.put(
-  "/:id/edit",
-  catchAsync(async (req, res, next) => {
-    const { id } = req.params;
-    const { name } = req.body;
-    const updatedCategory = await Category.findByIdAndUpdate(id, { name });
-    if (!updatedCategory)
-      return next(new ExpressError(404, "Category not found"));
-    else res.send({ statusCode: 200, message: "Category updated" });
-  })
-);
-
-// // Route to show/delete a specific category by ID                   "GET,DELETE /api/categories/:id"
+// Route to handle specific category by ID
 router
   .route("/:id")
+  .all(validateObjectId)
+  // Get a specific category by ID
   .get(
     catchAsync(async (req, res, next) => {
       const { id } = req.params;
@@ -48,15 +43,31 @@ router
       res.json(category);
     })
   )
+  // Update a specific category by ID
+  .put(
+    catchAsync(async (req, res, next) => {
+      const { id } = req.params;
+      const { name } = req.body;
+      const updatedCategory = await Category.findByIdAndUpdate(
+        id,
+        { name },
+        { new: true }
+      );
+      if (!updatedCategory)
+        return next(new ExpressError(404, "Category not found"));
+      res.send({ statusCode: 200, message: "Category updated" });
+    })
+  )
+  // Delete a specific category by ID
   .delete(
     catchAsync(async (req, res, next) => {
       const { id } = req.params;
       const deletedCategory = await Category.findByIdAndDelete(id);
       if (!deletedCategory)
         return next(new ExpressError(404, "Category not found"));
-      else res.send({ statusCode: 200, message: "Category deleted" });
-      console.log(deletedCategory);
+      res.send({ statusCode: 200, message: "Category deleted" });
     })
   );
 
+// Export the router to be used in other parts of the application
 module.exports = router;
