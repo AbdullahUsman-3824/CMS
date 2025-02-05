@@ -1,3 +1,4 @@
 structure.txt
 schemaPreReq.txt
 node_modules/
+.env
