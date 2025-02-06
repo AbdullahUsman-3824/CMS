@@ -3,14 +3,16 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+// Database connection
 const db = require("./mongoose.js");
 db.connect();
 
+// Import routes
 const CategoryRouter = require("./routes/category.js");
 const ProductRouter = require("./routes/product");
 
 // Middleware to parse JSON bodies
-// app.use(express.json());
+app.use(express.json());
 
 // Use routes
 app.use("/api/categories", CategoryRouter);
