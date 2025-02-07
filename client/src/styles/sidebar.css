@@ -1,0 +1,50 @@
+.menu{
+    display: flex;
+    flex-direction: column;
+    gap: 2.3 rem;
+    height: 100vh;
+    width: 230px;
+    background: #2B303A;
+
+}
+.logo{
+    text-align: center;
+    padding: 20px;
+    color: #E1AA7D;
+    align-items: center;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+.icon{
+    font-size: 1.4rem;
+    color: #E1AA7D;
+}
+.menu-list{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.menu-list .item{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 7px;
+    border-radius: 10px;
+    transition : 0.3s ease-in-out;
+    color: white;
+    margin-left: 65px;
+}
+.menu-list .item:hover{
+    background: rgba(245, 245, 245, 0.075);
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.menu-list .item ::selection{
+    background-color: #E1AA7D;
+}
