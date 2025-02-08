@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import HomeIcon from '@mui/icons-material/Home';
 import PendingIcon from '@mui/icons-material/Pending';
@@ -6,46 +7,52 @@ import PointOfSaleOutlinedIcon from '@mui/icons-material/PointOfSaleOutlined';
 import DescriptionIcon from '@mui/icons-material/Description';
 import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 import AssessmentIcon from '@mui/icons-material/Assessment';
-import "../styles/sidebar.css"
+import SettingsIcon from '@mui/icons-material/Settings';
+import "../styles/sidebar.css";
 
-export default function SideBar(){
+export default function SideBar() {
     return (
         <div className='menu'>
             <div className="logo">
-                <RestaurantIcon/>
+                <RestaurantIcon />
                 <h2>SYSTEM</h2>
             </div>
             <br />
             <br />
-            <div className="menu-list"> 
-                <a href="#" className="item">
-                    <HomeIcon className='icon'/>
+            <div className="menu-list">
+                <NavLink to="/" className={({ isActive }) => `item ${isActive ? "active" : ""}`}>
+                    <HomeIcon className='icon' />
                     Dashboard
-                </a>
-                <a href="#" className="item">
-                    <PendingIcon className='icon'/>
+                </NavLink>
+                <NavLink to="/categories" className={({ isActive }) => `item ${isActive ? "active" : ""}`}>
+                    <PendingIcon className='icon' />
                     Categories
-                </a>
-                <a href="#" className="item">
-                    <Inventory2OutlinedIcon className='icon'/>
+                </NavLink>
+                <NavLink to="/products" className={({ isActive }) => `item ${isActive ? "active" : ""}`}>
+                    <Inventory2OutlinedIcon className='icon' />
                     Products
-                </a>
-                <a href="#" className="item">
-                    <PointOfSaleOutlinedIcon className='icon'/>
+                </NavLink>
+                <NavLink to="/pos" className={({ isActive }) => `item ${isActive ? "active" : ""}`}>
+                    <PointOfSaleOutlinedIcon className='icon' />
                     POS
-                </a>
-                <a href="#" className="item">
-                    <DescriptionIcon className='icon'/>
+                </NavLink>
+                <NavLink to="/orders" className={({ isActive }) => `item ${isActive ? "active" : ""}`}>
+                    <DescriptionIcon className='icon' />
                     Orders
-                </a>
-                <a href="#" className="item">
-                    <TableRestaurantIcon className='icon'/>
+                </NavLink>
+                <NavLink to="/tables" className={({ isActive }) => `item ${isActive ? "active" : ""}`}>
+                    <TableRestaurantIcon className='icon' />
                     Tables
-                </a>
-                <a href="#" className="item">
-                    <AssessmentIcon className='icon'/>
+                </NavLink>
+                <NavLink to="/report" className={({ isActive }) => `item ${isActive ? "active" : ""}`}>
+                    <AssessmentIcon className='icon' />
                     Report
-                </a>
+                </NavLink>
+                <br />
+                <NavLink to="/settings" className={({ isActive }) => `set ${isActive ? "active" : ""}`}>
+                    <SettingsIcon className="setting" />
+                    Settings
+                </NavLink>
             </div>
         </div>
     );
