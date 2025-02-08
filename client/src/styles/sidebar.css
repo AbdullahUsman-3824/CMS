@@ -48,3 +48,49 @@
 .menu-list .item ::selection{
     background-color: #E1AA7D;
 }
+.setting{
+    align-items: center;
+    color: #E1AA7D;
+}
+.menu-list .set{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 7px;
+    border-radius: 20px;
+    transition : 0.3s ease-in-out;
+    color: white;
+    margin-left: 65px;
+    margin-right: 25px;
+    border: 2px solid #E1AA7D;
+}
+.menu-list .set:hover{
+    background: rgba(245, 245, 245, 0.075);
+}
+
+
+/* Fix ::selection */
+.menu-list .item::selection {
+    background-color: #E1AA7D;
+}
+
+/* Active Link Styling */
+/* .menu-list .item.active,
+.menu-list .set.active { */
+    /* background: #E1AA7D; */
+     /* Highlight active item */
+    /* color: black !important; */
+     /* Change text color */
+    /* font-weight: bold; */
+    /* border-radius: 10px; */
+/* } */
+
+/* Add a transition for smooth effect */
+/* .menu-list .item,
+.menu-list .set {
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+} */
+
