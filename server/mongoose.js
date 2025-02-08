@@ -4,12 +4,13 @@ const dotenv = require("dotenv");
 // Load environment variables from .env file
 dotenv.config();
 
-const mongoURI = process.env.MONGO_URI;
+const mongoURL = process.env.MONGO_URL;
 
 // Function to connect to MongoDB with error handling and reconnection
 const connectDB = async () => {
   try {
-    await mongoose.connect(mongoURI);
+    console.log(mongoURL)
+    await mongoose.connect(mongoURL);
     console.log("Connected to MongoDB");
   } catch (error) {
     console.error("Error connecting to MongoDB:", error.message);
