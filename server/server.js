@@ -2,6 +2,7 @@
 const express = require("express");
 const app = express();
 const port = 3000;
+const ExpressError = require("./utils/ExpressError.js");
 
 // Database connection
 const db = require("./mongoose.js");
@@ -11,7 +12,7 @@ db.connect();
 const CategoryRouter = require("./routes/category.js");
 const ProductRouter = require("./routes/product");
 
-// Middleware to parse JSON bodies
+// Middleware
 app.use(express.json());
 
 // Use routes

@@ -1,0 +1,22 @@
+{
+  "name": "cafemanagementsystem",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server.js --prefix server",
+    "client": "npm run dev --prefix client"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "react-router-dom": "^7.1.5"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
