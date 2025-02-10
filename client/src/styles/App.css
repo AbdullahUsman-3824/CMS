@@ -1,9 +1,5 @@
-:root{
-  --primary-color: #3A6351;
-}
 .dashboard{
   display: flex;
-  /* gap: 20px; */
 }
 .dashboard-content{
   background-color: var(--primary-color);
@@ -15,4 +11,3 @@
   justify-content: space-between;
   height: 3px;
 }
-

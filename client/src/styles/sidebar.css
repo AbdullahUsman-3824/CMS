@@ -1,96 +1,79 @@
-.menu{
+/* Sidebar Header */
+.sidebar-toggle {
     display: flex;
-    flex-direction: column;
-    gap: 2.3 rem;
-    height: 100vh;
-    width: 230px;
-    background: #2B303A;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 8px;
+    height: 72px;
+}
 
-}
-.logo{
-    text-align: center;
-    padding: 20px;
-    color: #E1AA7D;
-    align-items: center;
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-}
-.icon{
-    font-size: 1.4rem;
-    color: #E1AA7D;
-}
-.menu-list{
+/* Sidebar Menu List */
+.menu-list {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-}
-.menu-list .item{
-    display: flex;
-    align-items: center;
     gap: 10px;
-    font-size: 1.1rem;
-    text-decoration: none;
-    font-weight: 600;
-    padding: 7px;
-    border-radius: 10px;
-    transition : 0.3s ease-in-out;
-    color: white;
-    margin-left: 65px;
 }
-.menu-list .item:hover{
-    background: rgba(245, 245, 245, 0.075);
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+
+.sidebar .item {
+    cursor: pointer;
+
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-}
-.menu-list .item ::selection{
-    background-color: #E1AA7D;
-}
-.setting{
-    align-items: center;
-    color: #E1AA7D;
-}
-.menu-list .set{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 1.1rem;
+
+    width: 100%;
+    height: 56px;
     text-decoration: none;
-    font-weight: 600;
-    padding: 7px;
-    border-radius: 20px;
-    transition : 0.3s ease-in-out;
-    color: white;
-    margin-left: 65px;
-    margin-right: 25px;
-    border: 2px solid #E1AA7D;
-}
-.menu-list .set:hover{
-    background: rgba(245, 245, 245, 0.075);
+
+    & .item-text span {
+        font-size: 1.2rem;
+    }
+
+    & .icon {
+        font-size: 2rem;
+    }
 }
 
-
-/* Fix ::selection */
-.menu-list .item::selection {
-    background-color: #E1AA7D;
+.sidebar .item:hover {
+    mix-blend-mode: plus-lighter;
 }
 
-/* Active Link Styling */
-/* .menu-list .item.active,
-.menu-list .set.active { */
-    /* background: #E1AA7D; */
-     /* Highlight active item */
-    /* color: black !important; */
-     /* Change text color */
-    /* font-weight: bold; */
-    /* border-radius: 10px; */
-/* } */
+.sidebar .close {
+    border-radius: 50px;
+    width: auto;
 
-/* Add a transition for smooth effect */
-/* .menu-list .item,
-.menu-list .set {
-    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
-} */
+    & .item-text {
+        display: none;
+    }
+}
 
+/* Inctive Styling */
+.inactive-link {
+    color: var(--secondary-light);
+    background-color: var(--primary-dark);
+
+    & .icon {
+        color: var(--primary-light);
+    }
+}
+
+/* Active Styling */
+.active-link {
+    background-color: var(--primary-light);
+    box-shadow: -5px 5px 4px 0px rgba(0, 0, 0, 0.25);
+    color: var(--primary-dark);
+
+    & .icon {
+        color: var(--primary-dark);
+    }
+}
+
+/* Settings Button */
+.settings {
+    align-items: center;
+    margin: auto;
+    width: fit-content !important;
+    border-radius: 50px !important;
+    border: 1px solid var(--primary-light);
+}
