@@ -1,22 +1,22 @@
-// import React from "react"
-import SideBar from "./Components/sidebar"
-// import Content from "./Components/content"
-// import Profile from "./Components/profile"
-import Navbar from "./Components/navbar";
-import "./App.css"
-function App() {
+import "./styles/App.css";
+import { useState } from 'react';
+import { Box, CssBaseline } from '@mui/material';
+import { Sidebar, MainContent, Appbar } from "./components"
+import { BrowserRouter } from "react-router-dom";
 
+function App() {
+  const [open, setOpen] = useState(false);
 
   return (
-    <div className="dashboard">
-  <SideBar/>
-  <div className="dashboard-content">
-    {/* <Content />
-    <Profile /> */}
-    <Navbar />
-  </div>
-    </div>
+    <BrowserRouter>
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <Appbar open={open} setOpen={setOpen} />
+        <Sidebar open={open} setOpen={setOpen} />
+        <MainContent open={open} />
+      </Box>
+    </BrowserRouter>
   );
 }
 
-export default App
+export default App;

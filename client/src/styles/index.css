@@ -1,11 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Baloo+Bhaina+2:wght@400..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
 }
-body{
-  background: white;
-  padding: 0;
 
+:root {
+  /* Darker colors */
+  --primary-dark: #2B303A;
+  --secondary-dark: #3A6351;
+  
+  /* Lighter colors */
+  --primary-light: #E1AA7D;
+  --secondary-light: #F5F5DC;
+}
+
+body {
+  background: var(--secondary-light);
+  padding: 0;
 }
