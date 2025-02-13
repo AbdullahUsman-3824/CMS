@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const ExpressError = require("./utils/ExpressError.js");
+const cors = require("cors");
 
 // Database connection
 const db = require("./mongoose.js");
@@ -14,6 +15,7 @@ const ProductRouter = require("./routes/product");
 
 // Middleware
 app.use(express.json());
+app.use(cors({origin:"http://localhost:5173"}))
 
 // Use routes
 app.use("/api/categories", CategoryRouter);
