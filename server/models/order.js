@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const orderSchema = new Schema(
   {
     orderNumber: {
-      type: Number,
+      type: String,
       required: [true, "Order Code is required"],
       trim: true,
     },
