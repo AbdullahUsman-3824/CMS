@@ -8,7 +8,7 @@ const ExpressError = require("../utils/ExpressError");
 /**
  * Generates the next sequential order number for the current day.
  * Format: DDMM-N (e.g., 0502-1 for the first order on Feb 5th)
- * 
+ *
  * - Retrieves the most recent order for today.
  * - Extracts the last order number.
  * - Increments the order number for the new order.
@@ -24,10 +24,14 @@ const getNextOrderNumber = async () => {
     .select("orderNumber");
 
   // Extract the numeric part of the last order number safely
-  const lastOrderNum = lastOrder ? Number(lastOrder.orderNumber.split("-")[1]) || 0 : 0;
+  const lastOrderNum = lastOrder
+    ? Number(lastOrder.orderNumber.split("-")[1]) || 0
+    : 0;
 
   // Format today's date as "DDMM"
-  const todayDate = `${todayStart.getDate().toString().padStart(2, "0")}${(todayStart.getMonth() + 1)
+  const todayDate = `${todayStart.getDate().toString().padStart(2, "0")}${(
+    todayStart.getMonth() + 1
+  )
     .toString()
     .padStart(2, "0")}`;
 
@@ -106,8 +110,7 @@ router
       });
 
       if (!updatedOrder) return next(new ExpressError(404, "Order not found"));
-
-      res.json(updatedOrder);
+      res.send({ statusCode: 200, message: "Order updated" });
     })
   )
 
