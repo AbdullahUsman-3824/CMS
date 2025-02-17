@@ -12,14 +12,16 @@ db.connect();
 // Import routes
 const CategoryRouter = require("./routes/category.js");
 const ProductRouter = require("./routes/product");
+const OrderRouter = require("./routes/order.js");
 
 // Middleware
 app.use(express.json());
-app.use(cors({origin:"http://localhost:5173"}))
+app.use(cors({ origin: "http://localhost:5173" }));
 
 // Use routes
 app.use("/api/categories", CategoryRouter);
 app.use("/api/products", ProductRouter);
+app.use("/api/orders", OrderRouter);
 
 // Catch-all route for handling 404 errors
 app.use("*", (req, res, next) => {

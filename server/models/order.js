@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const orderSchema = new Schema(
   {
-    orderCode: {
-      type: String,
+    orderNumber: {
+      type: Number,
       required: [true, "Order Code is required"],
       trim: true,
     },
