@@ -14,18 +14,20 @@ router
   .get(
     catchAsync(async (req, res) => {
       const categories = await Category.find({});
-      res.json(categories);
+      res.status(200).json(categories);
     })
   )
   // Create a new category
   .post(
-    catchAsync(async (req, res) => {
+    catchAsync(async (req, res, next) => {
       const { name } = req.body;
+      if (!name)
+        return next(new ExpressError(400, "Category name is required"));
+
       const createdCategory = await Category.create({ name });
-      res.json({
-        statusCode: 200,
+      res.status(201).json({
         message: "Category created",
-        id: createdCategory._id,
+        category: createdCategory,
       });
     })
   );
@@ -40,7 +42,7 @@ router
       const { id } = req.params;
       const category = await Category.findById(id);
       if (!category) return next(new ExpressError(404, "Category not found"));
-      res.json(category);
+      res.status(200).json(category);
     })
   )
   // Update a specific category by ID
@@ -48,14 +50,21 @@ router
     catchAsync(async (req, res, next) => {
       const { id } = req.params;
       const { name } = req.body;
+      if (!name)
+        return next(new ExpressError(400, "Category name is required"));
+
       const updatedCategory = await Category.findByIdAndUpdate(
         id,
         { name },
-        { new: true }
+        { new: true, runValidators: true }
       );
       if (!updatedCategory)
         return next(new ExpressError(404, "Category not found"));
-      res.send({ statusCode: 200, message: "Category updated" });
+
+      res.status(200).json({
+        message: "Category updated",
+        category: updatedCategory,
+      });
     })
   )
   // Delete a specific category by ID
@@ -65,7 +74,10 @@ router
       const deletedCategory = await Category.findByIdAndDelete(id);
       if (!deletedCategory)
         return next(new ExpressError(404, "Category not found"));
-      res.send({ statusCode: 200, message: "Category deleted" });
+
+      res.status(200).json({
+        message: "Category deleted",
+      });
     })
   );
 
