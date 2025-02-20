@@ -80,7 +80,7 @@ router
       const newOrder = await Order.create({
         ...req.body,
         orderNumber: nextOrderNumber,
-        orderTime: new Date(), 
+        orderTime: new Date(),
       });
 
       // Send response with the created order details

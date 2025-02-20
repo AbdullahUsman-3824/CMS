@@ -42,7 +42,6 @@ router
       if (!product) return next(new ExpressError(404, "Product not found"));
       res.json(product);
     })
-
   )
   // Update a specific product by ID
   .put(
