@@ -35,7 +35,7 @@ const orderSchema = new Schema(
     },
 
     timeTaken: {
-      type: Date,
+      type: Number,
     },
 
     orderTotal: {

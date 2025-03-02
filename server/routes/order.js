@@ -79,12 +79,32 @@ router
   .put(
     catchAsync(async (req, res, next) => {
       const { id } = req.params;
+      const order = await Order.findById(id);
+  
+      if (!order) return next(new ExpressError(404, "Order not found"));
+  
+      const { orderStatus } = req.body;
+  
+      // Calculate time taken if order is delivered
+      if (
+        orderStatus === "delivered" &&
+        order.orderStatus !== "delivered" &&
+        order.orderTime
+      ) {
+        const orderTime = new Date(order.orderTime);
+        if (isNaN(orderTime)) {
+          return next(new ExpressError(400, "Invalid order time format"));
+        }
+        req.body.timeTaken = (Date.now() - orderTime.getTime()) / 1000; 
+      }
+  
       const updatedOrder = await Order.findByIdAndUpdate(id, req.body, {
-        new: true, // Returns the updated document
+        new: true,
       });
-
+  
       if (!updatedOrder) return next(new ExpressError(404, "Order not found"));
-      res.send({ statusCode: 200, message: "Order updated" });
+  
+      res.json({ statusCode: 200, message: "Order updated" });
     })
   )
 
