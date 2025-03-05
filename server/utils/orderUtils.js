@@ -37,13 +37,53 @@ const getNextOrderNumber = async (orderType) => {
 
 // Get items total
 const getItemsTotal = async (items) => {
-  let total = 0;
-  for (const item of items) {
-    const product = await Product.findOne({ "sizes._id": item });
-    const productPrice = product.sizes.find((size) => size._id == item).price;
-    total += productPrice;
+  if (!items || !Array.isArray(items) || items.length === 0) {
+    return next(new ExpressError(400, "Order must contain at least one item."));
   }
-  return total;
+
+  let orderTotal = 0;
+  const processedItems = [];
+
+  for (const item of items) {
+    const { productId, sizeId, quantity } = item;
+
+    // Validate required fields
+    if (!productId || !sizeId || !quantity || quantity <= 0) {
+      return next(
+        new ExpressError(
+          400,
+          "Each item must have a valid productId, sizeId, and quantity."
+        )
+      );
+    }
+
+    // Fetch product to validate existence and get price
+    const product = await Product.findById(productId);
+    if (!product) {
+      return next(new ExpressError(404, "Product not found."));
+    }
+
+    // Find the correct size
+    const selectedSize = product.sizes.find(
+      (size) => size._id.toString() == sizeId
+    );
+    if (!selectedSize) {
+      return next(new ExpressError(400, "Invalid size selection."));
+    }
+
+    // Calculate total price
+    const itemTotal = selectedSize.price * quantity;
+    orderTotal += itemTotal;
+
+    // Add processed item to the list
+    processedItems.push({
+      productId,
+      sizeId,
+      quantity,
+      price: selectedSize.price,
+    });
+  }
+  return { orderTotal, processedItems };
 };
 
 module.exports = { getNextOrderNumber, getItemsTotal };

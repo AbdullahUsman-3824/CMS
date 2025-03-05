@@ -34,15 +34,20 @@ router
 
       // Generate the next available order number
       const nextOrderNumber = await getNextOrderNumber(orderType);
-      const total = await getItemsTotal(req.body.items);
+      const { orderTotal, processedItems } = await getItemsTotal(
+        req.body.items
+      );
 
       // Create a new order document with the generated order number
-      const newOrder = await Order.create({
+      const newOrder = new Order({
         ...req.body,
         orderNumber: nextOrderNumber,
-        orderTotal: total,
+        orderTotal: orderTotal,
         orderTime: new Date(),
+        items: processedItems,
       });
+      await newOrder.save();
+
       // Send response with the created order details
       res.status(201).json({
         statusCode: 201,
@@ -64,7 +69,7 @@ router
   .get(
     catchAsync(async (req, res, next) => {
       const { id } = req.params;
-      const order = await Order.findById(id);
+      const order = await Order.findById(id).lean();
 
       if (!order) return next(new ExpressError(404, "Order not found"));
 
@@ -79,15 +84,15 @@ router
   .put(
     catchAsync(async (req, res, next) => {
       const { id } = req.params;
-      const order = await Order.findById(id);
-  
+      const order = await Order.findById(id).lean();
+
       if (!order) return next(new ExpressError(404, "Order not found"));
-  
-      const { orderStatus } = req.body;
-  
+
+      const { status } = req.body;
+
       // Calculate time taken if order is delivered
       if (
-        orderStatus === "delivered" &&
+        status === "delivered" &&
         order.orderStatus !== "delivered" &&
         order.orderTime
       ) {
@@ -95,15 +100,21 @@ router
         if (isNaN(orderTime)) {
           return next(new ExpressError(400, "Invalid order time format"));
         }
-        req.body.timeTaken = (Date.now() - orderTime.getTime()) / 1000; 
+        req.body.timeTaken = (Date.now() - orderTime.getTime()) / 1000;
       }
-  
-      const updatedOrder = await Order.findByIdAndUpdate(id, req.body, {
-        new: true,
-      });
-  
+
+      const updatedOrder = await Order.findOneAndUpdate(
+        { _id: id, orderStatus: { $ne: "delivered" } },
+        {
+          $set: {
+            orderStatus: status,
+            ...(req.body.timeTaken && { timeTaken: req.body.timeTaken }),
+          },
+        },
+        { new: true }
+      );
       if (!updatedOrder) return next(new ExpressError(404, "Order not found"));
-  
+
       res.json({ statusCode: 200, message: "Order updated" });
     })
   )

@@ -7,6 +7,7 @@ const orderSchema = new Schema(
       type: String,
       required: [true, "Order Code is required"],
       trim: true,
+      index: true,
     },
 
     orderType: {
@@ -26,6 +27,7 @@ const orderSchema = new Schema(
       },
       default: "pending",
       required: true,
+      index: true,
     },
 
     orderTime: {
@@ -36,12 +38,14 @@ const orderSchema = new Schema(
 
     timeTaken: {
       type: Number,
+      default: null,
     },
 
     orderTotal: {
       type: Number,
       required: [true, "Order Total is required"],
       min: [0, "Order Total cannot be negative"],
+      default: 0,
     },
 
     paymentStatus: {
@@ -51,9 +55,24 @@ const orderSchema = new Schema(
 
     items: [
       {
-        type: Schema.Types.ObjectId,
-        ref: "Product",
-        required: [true, "Order must contain at least one item"],
+        productId: {
+          type: Schema.Types.ObjectId,
+          ref: "Product",
+          required: true,
+        },
+        sizeId: {
+          type: Schema.Types.ObjectId,
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+          min: [1, "Quantity must be at least 1"],
+        },
+        price: {
+          type: Number,
+          required: true,
+        },
       },
     ],
 
